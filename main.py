@@ -21,6 +21,11 @@ def train(prof):
     return render_template('index.html', title=title, text=res)
 
 
+@app.route('/list-prof/<mode>')
+def list_prof(mode):
+    return render_template('list_prof.html', mode=mode)
+
+
 if __name__ == '__main__':
     port = 8080
     host = '127.0.0.1'
