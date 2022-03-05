@@ -1,7 +1,10 @@
 from flask import Flask, render_template
+from werkzeug.utils import redirect
+
+from data.loginform import LoginForm
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 @app.route('/index/<title>')
 @app.route('/<title>')
@@ -19,6 +22,24 @@ def train(prof):
         res = 'Другое'
     title = host + ':' + str(port) + '/training/' + prof
     return render_template('index.html', title=title, text=res)
+
+
+@app.route('/list-prof/<mode>')
+def list_prof(mode):
+    return render_template('list_prof.html', mode=mode)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('login.html', title='Авторизация', form=form)
+
+
+@app.route('/distribution')
+def distribution():
+    users = ['Ридли Скотт', 'Энди Уир', 'Марк Уотни', 'Венката Капур', 'Тедди Сандерс', 'Шон Бин']
 
 
 if __name__ == '__main__':
